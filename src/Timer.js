@@ -50,8 +50,24 @@ export class Timer extends React.Component {
       this.addPlayerOne();
     });
 
+    socket.on('mobile subtract p1 point', () => {
+      this.subtractPlayerOne();
+    });
+
+    socket.on('mobile clear p1 point', () => {
+      this.clearPlayerOne();
+    });
+
     socket.on('mobile add p2 point', () => {
       this.addPlayerTwo();
+    });
+
+    socket.on('mobile subtract p2 point', () => {
+      this.subtractPlayerTwo();
+    });
+
+    socket.on('mobile clear p2 point', () => {
+      this.clearPlayerTwo();
     });
 
     socket.on('mobile add p1 name', (playerOneName) => {
@@ -142,8 +158,24 @@ export class Timer extends React.Component {
     this.setState({ playerOneScore: this.state.playerOneScore + 1 });
   }
 
+  subtractPlayerOne() {
+    this.setState({ playerOneScore: this.state.playerOneScore - 1 });
+  }
+
+  clearPlayerOne() {
+    this.setState({ playerOneScore: 0 });
+  }
+
   addPlayerTwo() {
     this.setState({ playerTwoScore: this.state.playerTwoScore + 1 });
+  }
+
+  subtractPlayerTwo() {
+    this.setState({ playerTwoScore: this.state.playerTwoScore - 1 });
+  }
+
+  clearPlayerTwo() {
+    this.setState({ playerTwoScore: 0 });
   }
 
   handleNameOneChange(e) {

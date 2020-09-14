@@ -2,10 +2,7 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import Typeography from '@material-ui/core/Typography';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:5000');
 
 export class Players extends React.Component {
   constructor(props) {

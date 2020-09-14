@@ -121,7 +121,15 @@ function processTest(args) {
         io.emit(payloadObj.directive);
       } else if (payloadObj.directive === 'mobile add p1 point') {
         io.emit(payloadObj.directive);
+      } else if (payloadObj.directive === 'mobile subtract p1 point') {
+        io.emit(payloadObj.directive);
+      } else if (payloadObj.directive === 'mobile clear p1 point') {
+        io.emit(payloadObj.directive);
       } else if (payloadObj.directive === 'mobile add p2 point') {
+        io.emit(payloadObj.directive);
+      } else if (payloadObj.directive === 'mobile subtract p2 point') {
+        io.emit(payloadObj.directive);
+      } else if (payloadObj.directive === 'mobile clear p2 point') {
         io.emit(payloadObj.directive);
       } else if (payloadObj.directive === 'mobile add p1 name') {
         io.emit(payloadObj.directive, payloadObj.playerOneName);
