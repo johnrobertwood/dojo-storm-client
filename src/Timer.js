@@ -1,11 +1,9 @@
 import * as React from 'react';
 import './Timer.css';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Players from './Players';
 import Typeography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:5000');
 
@@ -17,8 +15,8 @@ export class Timer extends React.Component {
       isRest: false,
       workTime: 120,
       restTime: 60,
-      playerOneName: 'John',
-      playerTwoName: 'Ramsey',
+      playerOneName: 'Daniel',
+      playerTwoName: 'Johnny',
       playerOneScore: 0,
       playerTwoScore: 0
     };
@@ -72,9 +70,7 @@ export class Timer extends React.Component {
 
   tick() {
     let time = this.state.isRest ? this.state.restTime : this.state.workTime;
-    this.setState({
-      count: this.state.count + 1
-    });
+    this.setState({ count: this.state.count + 1 });
     if (time - this.state.count === 30 && this.state.isRest === false) {
       socket.emit('timer warning');
     }
@@ -84,24 +80,14 @@ export class Timer extends React.Component {
     }
 
     if (time - this.state.count === 0) {
-
       if (this.state.isRest) {
         socket.emit('timer start');
-        this.setState({
-          count: 0,
-          workTime: this.state.workTime
-        });
+        this.setState({ count: 0, workTime: this.state.workTime });
       } else {
         socket.emit('timer end');
-        this.setState({
-          count: 0,
-          restTime: this.state.restTime
-        });
+        this.setState({ count: 0, restTime: this.state.restTime });
       }
-
-      this.setState({
-        isRest: !this.state.isRest
-      });
+      this.setState({ isRest: !this.state.isRest });
     }
   }
 
@@ -125,84 +111,55 @@ export class Timer extends React.Component {
     socket.emit('timer reset')
     clearInterval(this.timerID);
     this.timerID = null;
-    this.setState({
-      count: 0
-    });
+    this.setState({ count: 0 });
   }
 
-  addWorkMinute() {
-    this.setState({
-      workTime: this.state.workTime + 60
-    });
-  }
+  addWorkMinute() { this.setState({ workTime: this.state.workTime + 60 }); }
 
   subtractWorkMinute() {
     if (this.state.workTime > 60) {
-      this.setState({
-        workTime: this.state.workTime - 60
-      });
+      this.setState({ workTime: this.state.workTime - 60 });
     } else {
       clearInterval(this.timerID);
-      this.setState({
-        count: 0,
-        workTime: 0
-      });
+      this.setState({ count: 0, workTime: 0 });
     }
   }
 
   addRestThirty() {
-    this.setState({
-      restTime: this.state.restTime + 30
-    });
+    this.setState({ restTime: this.state.restTime + 30 });
   }
 
   subtractRestThirty() {
     if (this.state.restTime > 30) {
-      this.setState({
-        restTime: this.state.restTime - 30
-      });
+      this.setState({ restTime: this.state.restTime - 30 });
     } else {
       clearInterval(this.timerID);
-      this.setState({
-        restTime: this.state.restTime - 30
-      });
+      this.setState({ restTime: this.state.restTime - 30 });
     }
   }
 
   addPlayerOne() {
-    this.setState({
-      playerOneScore: this.state.playerOneScore + 1
-    });
+    this.setState({ playerOneScore: this.state.playerOneScore + 1 });
   }
 
   addPlayerTwo() {
-    this.setState({
-      playerTwoScore: this.state.playerTwoScore + 1
-    });
+    this.setState({ playerTwoScore: this.state.playerTwoScore + 1 });
   }
 
   handleNameOneChange(e) {
-    this.setState({
-      playerOneName: e.target.value
-    });
+    this.setState({ playerOneName: e.target.value });
   }
 
   handleNameTwoChange(e) {
-    this.setState({
-      playerTwoName: e.target.value
-    });
+    this.setState({ playerTwoName: e.target.value });
   }
 
   addPlayerOneName(name) {
-    this.setState({
-      playerOneName: name
-    });
+    this.setState({ playerOneName: name });
   }
 
   addPlayerTwoName(name) {
-    this.setState({
-      playerTwoName: name
-    });
+    this.setState({ playerTwoName: name });
   }
 
   render() {
@@ -218,56 +175,11 @@ export class Timer extends React.Component {
       digits = <Typeography variant="h2">{'0' + parseInt((time - this.state.count) / 60)}:{parseInt((time - this.state.count) % 60)}</Typeography>
     }
     return (
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
+        <Typeography variant="h4">Dojo Storm</Typeography>
+        <Players data={this.state} />
         <Box my={2}>
-          <Typeography variant="h4">Round Timer</Typeography>
           {digits}
-        </Box>
-        <Box>
-          <ButtonGroup color="primary" aria-label="outlined primary button group">
-            <Button color="primary" onClick={this.startTimer}>Start</Button>
-            <Button color="primary" onClick={this.pauseTimer}>Pause</Button>
-            <Button color="primary" onClick={this.resetTimer}>Reset</Button>
-          </ButtonGroup>
-        </Box>
-        <Box my={4}>
-          <ButtonGroup orientation="vertical" color="primary" aria-label="vertical outlined primary button group">
-            <Button onClick={this.addWorkMinute}>+1 Min Work</Button>
-            <Button onClick={this.subtractWorkMinute}>-1 Min Work</Button>
-          </ButtonGroup>
-          <ButtonGroup orientation="vertical" color="primary" aria-label="vertical outlined primary button group">
-            <Button onClick={this.addRestThirty}>+30 Sec Rest</Button>
-            <Button onClick={this.subtractRestThirty}>-30 Sec Work</Button>
-          </ButtonGroup>
-        </Box>
-        <Box>
-          <Typeography variant="h4">{this.state.isRest ? "REST" : "WORK"}</Typeography>
-        </Box>
-        <Box>
-          <Typeography>Work Time: {'0' + parseInt(this.state.workTime / 60)}:{'0' + parseInt(this.state.workTime % 60)}</Typeography>
-          <Typeography>Rest Time: {'0' + parseInt(this.state.restTime / 60)}:{parseInt(this.state.restTime % 60) ? '30' : '00'}</Typeography>
-        </Box>
-        <Box>
-          <Box>
-            <Typeography variant="h4">{this.state.playerOneName}</Typeography>
-            <Typeography variant="h5">{this.state.playerOneScore}</Typeography>
-          </Box>
-          <Box>
-            <Typeography variant="h4">{this.state.playerTwoName}</Typeography>
-            <Typeography variant="h5">{this.state.playerTwoScore}</Typeography>
-          </Box>
-        </Box>
-        <Box>
-          <ButtonGroup color="primary" aria-label="outlined primary button group">
-            <Button color="primary" onClick={this.addPlayerOne}>Player 1 Add Point</Button>
-            <Button color="primary" onClick={this.addPlayerTwo}>Player 2 Add Point</Button>
-          </ButtonGroup>
-        </Box>
-        <Box>
-          <form noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Change P1 Name" onChange={this.handleNameOneChange} />
-            <TextField id="standard-basic" label="Change P2 Name" onChange={this.handleNameTwoChange} />
-          </form>
         </Box>
       </Container>
     );
