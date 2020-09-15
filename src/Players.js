@@ -1,9 +1,5 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Typeography from '@material-ui/core/Typography';
-
+import './Players.css';
 export class Players extends React.Component {
   constructor(props) {
     super(props);
@@ -39,32 +35,28 @@ export class Players extends React.Component {
 
   render() {
     return (
-      <Container maxWidth="sm">
-        <Grid container direction="row">
-          <Box border={1} width="100%">
-            <Grid container direction="row" justify="space-between" alignItems="center">
-              <Box p={3}>
-                <Typeography variant="h4">{this.props.data.playerOneName}</Typeography>
-              </Box>
-              <Box borderLeft={1} p={3}>
-                <Typeography variant="h4">{this.props.data.playerOneScore}</Typeography>
-              </Box>
-            </Grid>
-          </Box>
-        </Grid>
-        <Grid container direction="row">
-          <Box border={1} width="100%">
-            <Grid container direction="row" justify="space-between" alignItems="center">
-              <Box p={3}>
-                <Typeography variant="h4">{this.props.data.playerTwoName}</Typeography>
-              </Box>
-              <Box borderLeft={1} p={3}>
-                <Typeography variant="h4">{this.props.data.playerTwoScore}</Typeography>
-              </Box>
-            </Grid>
-          </Box>
-        </Grid>
-      </Container>
+      <div>
+        <div>
+          <div>
+            <div className="player-container-top">
+              <div className="player-name-container">
+                <div>{this.props.data.playerOneName}</div>
+              </div>
+              <div className="player-score-container">
+                <div>{this.props.data.playerOneScore}</div>
+              </div>
+            </div>
+            <div className="player-container-bottom">
+              <div className="player-name-container">
+                <div>{this.props.data.playerTwoName}</div>
+              </div>
+              <div className="player-score-container">
+                <div>{this.props.data.playerTwoScore}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div >
     );
   }
 }

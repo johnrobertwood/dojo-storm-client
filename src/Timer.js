@@ -1,10 +1,8 @@
 import * as React from 'react';
 import './Timer.css';
 import Players from './Players';
-import Typeography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
 import openSocket from 'socket.io-client';
+import Typeography from '@material-ui/core/Typography';
 const socket = openSocket('http://localhost:5000');
 
 export class Timer extends React.Component {
@@ -200,20 +198,19 @@ export class Timer extends React.Component {
     const lessThanZero = parseInt((time - this.state.count) % 60) < 0;
     let digits;
     if (lessThanZero) {
-      digits = <Typeography variant="h2">{'00:00'}</Typeography>
+      digits = <div>{'00:00'}</div>
     } else if (lessThanTen) {
-      digits = <Typeography variant="h2">{'0' + parseInt((time - this.state.count) / 60)}:{'0' + parseInt((time - this.state.count) % 60)}</Typeography>
+      digits = <div>{'0' + parseInt((time - this.state.count) / 60)}:{'0' + parseInt((time - this.state.count) % 60)}</div>
     } else {
-      digits = <Typeography variant="h2">{'0' + parseInt((time - this.state.count) / 60)}:{parseInt((time - this.state.count) % 60)}</Typeography>
+      digits = <div>{'0' + parseInt((time - this.state.count) / 60)}:{parseInt((time - this.state.count) % 60)}</div>
     }
     return (
-      <Container maxWidth="lg">
-        <Typeography variant="h4">Dojo Storm</Typeography>
+      <div>
         <Players data={this.state} />
-        <Box my={2}>
-          {digits}
-        </Box>
-      </Container>
+        <div className="timerContainer">
+          <Typeography className="timerDigits" variant="h1">{digits}</Typeography>
+        </div>
+      </div>
     );
   }
 }

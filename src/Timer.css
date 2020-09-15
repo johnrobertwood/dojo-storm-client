@@ -1,0 +1,8 @@
+.timerContainer {
+  padding: 0;
+  width: 100%;
+}
+
+.timerDigits {
+  font-size: 22em !important;
+}
