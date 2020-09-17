@@ -39,18 +39,18 @@ export class Players extends React.Component {
         <div>
           <div>
             <div className="player-container-top">
-              <div className="player-name-container">
+              <div className="player-name-container-top">
                 <div>{this.props.data.playerOneName}</div>
               </div>
-              <div className="player-score-container">
+              <div className="player-score-container-top">
                 <div>{this.props.data.playerOneScore}</div>
               </div>
             </div>
             <div className="player-container-bottom">
-              <div className="player-name-container">
+              <div className="player-name-container-bottom">
                 <div>{this.props.data.playerTwoName}</div>
               </div>
-              <div className="player-score-container">
+              <div className="player-score-container-bottom">
                 <div>{this.props.data.playerTwoScore}</div>
               </div>
             </div>
